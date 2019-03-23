@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String termsSearched) {
                 // Search data using the input terms when the search button is push
+                // replace spaces by + to avoid application crash
+                termsSearched = termsSearched.replace(" ", "+");
                 DeezerService.getInstance().getArtistFromSearch(termsSearched, MainActivity.this, recyclerView);
                 return false;
             }
