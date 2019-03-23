@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -77,7 +76,6 @@ public class DeezerData {
 
         );
 
-        getRequest.setRetryPolicy(new DefaultRetryPolicy(1000, 5, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         QueueSingleton.getInstance(context).addToRequestQueue(getRequest);
     }
 
@@ -116,7 +114,6 @@ public class DeezerData {
 
         );
 
-        getRequest.setRetryPolicy(new DefaultRetryPolicy(1000, 5, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         QueueSingleton.getInstance(context).addToRequestQueue(getRequest);
     }
 
@@ -159,15 +156,26 @@ public class DeezerData {
 
         );
 
-        getRequest.setRetryPolicy(new DefaultRetryPolicy(1000, 5, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         QueueSingleton.getInstance(context).addToRequestQueue(getRequest);
     }
 
-    String secondsToMin(String toTransform){
+    private String secondsToMin(String toTransform) {
         int seconds = Integer.parseInt(toTransform);
         int minutes = seconds / 60;
         int rest = seconds - (minutes * 60);
+        String minStr, restStr;
 
-        return minutes + ":" + rest;
+        if (minutes < 10) {
+            minStr = "0" + minutes;
+        } else {
+            minStr = String.valueOf(minutes);
+        }
+
+        if (rest < 10) {
+            restStr = "0" + rest;
+        } else {
+            restStr = String.valueOf(rest);
+        }
+        return minStr + ":" + restStr;
     }
 }
