@@ -1,7 +1,10 @@
-package com.ensim.deezerapp.service.data;
+package com.ensim.deezerapp.Class;
 
+/***
+ * Auto-generated class from Deezer's Json files
+ */
 public class Track {
-    Artist ArtistObject;
+    private Artist ArtistObject;
     private String id;
     private boolean readable;
     private String title;

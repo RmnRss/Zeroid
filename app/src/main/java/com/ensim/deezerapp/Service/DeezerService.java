@@ -1,4 +1,4 @@
-package com.ensim.deezerapp.service;
+package com.ensim.deezerapp.Service;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,12 +8,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.ensim.deezerapp.AlbumCard.AlbumCardAdapter;
-import com.ensim.deezerapp.ArtistCard.ArtistCardAdapter;
-import com.ensim.deezerapp.TracksCard.TrackCardAdapter;
-import com.ensim.deezerapp.service.data.Album;
-import com.ensim.deezerapp.service.data.Artist;
-import com.ensim.deezerapp.service.data.Track;
+import com.ensim.deezerapp.Cards.AlbumCard.AlbumCardAdapter;
+import com.ensim.deezerapp.Cards.ArtistCard.ArtistCardAdapter;
+import com.ensim.deezerapp.Cards.TrackCard.TrackCardAdapter;
+import com.ensim.deezerapp.Class.Album;
+import com.ensim.deezerapp.Class.Artist;
+import com.ensim.deezerapp.Class.Track;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -23,23 +23,31 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeezerData {
+/***
+ * Services to get data from Deezer
+ */
+public class DeezerService {
 
-    private static DeezerData singleton;
+    private static DeezerService singleton;
     private Gson gson;
 
-    private DeezerData() {
+    private DeezerService() {
         this.gson = new Gson();
     }
 
-    public static DeezerData getInstance() {
+    public static DeezerService getInstance() {
         if (singleton == null) {
-            singleton = new DeezerData();
+            singleton = new DeezerService();
         }
         return singleton;
     }
 
-
+    /***
+     * Uses volley JsonRequest to get Json from deezer, then parse Json content into a list of object that is displayed using the recyclerView
+     * @param searchedTerms terms entered by the user
+     * @param context Current app context
+     * @param recyclerView view that should contain deezer data
+     */
     public void getArtistFromSearch(String searchedTerms, Context context, final RecyclerView recyclerView) {
 
         String url = "https://api.deezer.com/search/artist?q=" + searchedTerms;
@@ -79,6 +87,12 @@ public class DeezerData {
         QueueSingleton.getInstance(context).addToRequestQueue(getRequest);
     }
 
+    /***
+     * Same as getArtistFromSearch but with different parameters
+     * @param artistId the Deezer API id of the artist containing the wanted albums
+     * @param context Current app context
+     * @param recyclerView view that should contain deezer data
+     */
     public void getAlbumsFromArtist(String artistId, Context context, final RecyclerView recyclerView) {
         String url = "https://api.deezer.com/artist/" + artistId + "/albums";
 
@@ -117,6 +131,12 @@ public class DeezerData {
         QueueSingleton.getInstance(context).addToRequestQueue(getRequest);
     }
 
+    /***
+     * Same as getArtistFromSearch
+     * @param albumId the Deezer API id of the album contaning the tracks
+     * @param context Current app context
+     * @param recyclerView view that should contain deezer data
+     */
     public void getTracksFromAlbum(String albumId, Context context, final RecyclerView recyclerView) {
 
         String url = "https://api.deezer.com/album/" + albumId + "/tracks";
@@ -159,6 +179,11 @@ public class DeezerData {
         QueueSingleton.getInstance(context).addToRequestQueue(getRequest);
     }
 
+    /***
+     * Reformat the duration in seconds fetched from Deezer's API to a more readable duration
+     * @param toTransform duration in seconds
+     * @return min:sec
+     */
     private String secondsToMin(String toTransform) {
         int seconds = Integer.parseInt(toTransform);
         int minutes = seconds / 60;

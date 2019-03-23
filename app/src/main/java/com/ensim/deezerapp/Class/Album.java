@@ -1,13 +1,16 @@
-package com.ensim.deezerapp.service.data;
+package com.ensim.deezerapp.Class;
 
 import java.util.ArrayList;
 
+/***
+ * Auto-generated class from Deezer's Json files
+ */
 public class Album {
 
-    Genre GenresObject;
-    ArrayList<Artist> contributors = new ArrayList<Artist>();
-    Artist ArtistObject;
-    Track TracksObject;
+    private Genre GenresObject;
+    private ArrayList<Artist> contributors = new ArrayList<Artist>();
+    private Artist ArtistObject;
+    private Track TracksObject;
     private String id;
     private String title;
     private String upc;

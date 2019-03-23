@@ -1,5 +1,8 @@
-package com.ensim.deezerapp.service.data;
+package com.ensim.deezerapp.Class;
 
+/***
+ * Auto-generated class from Deezer's Json files
+ */
 public class Genre {
     private float id;
     private String name;

@@ -9,13 +9,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.ensim.deezerapp.service.DeezerData;
-import com.ensim.deezerapp.service.data.Artist;
-import com.google.gson.Gson;
+import com.ensim.deezerapp.Service.DeezerService;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/***
+ * Starting activity. Empty at first, but uses the search menu to display Deezer API data
+ */
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -28,22 +26,22 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Initializing recyclerView / Vertical Display
         recyclerView = findViewById(R.id.artist_list);
-
-        //définit l'agencement des cellules, ici de façon verticale, comme une ListView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
+        // Initializing search menu
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String termsSearched) {
-                DeezerData.getInstance().getArtistFromSearch(termsSearched, MainActivity.this, recyclerView);
+                // Search data using the input terms when the search button is push
+                DeezerService.getInstance().getArtistFromSearch(termsSearched, MainActivity.this, recyclerView);
                 return false;
             }
 

@@ -7,14 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
-import com.ensim.deezerapp.service.DeezerData;
-import com.ensim.deezerapp.service.data.Album;
-import com.google.gson.Gson;
+import com.ensim.deezerapp.Service.DeezerService;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ArtistDetails extends AppCompatActivity {
+/***
+ * Activity displaying the albums of an Artist
+ */
+public class ArtistDetailsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
 
@@ -25,22 +23,21 @@ public class ArtistDetails extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Data from last activity
         String artistId = getIntent().getStringExtra("ArtistId");
         String artistName = getIntent().getStringExtra("ArtistName");
 
         getSupportActionBar().setTitle(artistName);
 
-
+        // Initialising the number of fans to display
         TextView fanText = findViewById(R.id.nb_fans);
         fanText.setText(getIntent().getStringExtra("ArtistFans"));
 
-
+        // Initializing the recyclerView / two columns setup
         recyclerView = findViewById(R.id.album_list);
-
-        //pour adapter en grille comme une RecyclerView, avec 2 cellules par ligne
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
-        DeezerData.getInstance().getAlbumsFromArtist(artistId, ArtistDetails.this, recyclerView);
+        DeezerService.getInstance().getAlbumsFromArtist(artistId, ArtistDetailsActivity.this, recyclerView);
     }
 
     @Override

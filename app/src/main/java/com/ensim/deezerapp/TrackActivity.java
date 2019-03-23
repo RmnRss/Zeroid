@@ -9,8 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.ensim.deezerapp.service.DeezerData;
+import com.ensim.deezerapp.Medias.SingleMediaPlayer;
+import com.ensim.deezerapp.Service.DeezerService;
 
+/***
+ * Displays the tracks of an album and allows to play a music by clicking on the card
+ */
 public class TrackActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -23,12 +27,15 @@ public class TrackActivity extends AppCompatActivity {
         setContentView(R.layout.activity_track);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Information from last activity
         String albumId = getIntent().getStringExtra("AlbumId");
         String albumTitle = getIntent().getStringExtra("AlbumTitle");
 
         getSupportActionBar().setTitle(albumTitle);
 
-        final FloatingActionButton fab = findViewById(R.id.music_btn);
+        // Button to stop the music
+        FloatingActionButton fab = findViewById(R.id.music_btn);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,16 +46,17 @@ public class TrackActivity extends AppCompatActivity {
             }
         });
 
-
+        // Initialising the recycler view
         recyclerView = findViewById(R.id.track_list);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        DeezerData.getInstance().getTracksFromAlbum(albumId, TrackActivity.this, recyclerView);
+        // Search tracks of an album
+        DeezerService.getInstance().getTracksFromAlbum(albumId, TrackActivity.this, recyclerView);
     }
 
     @Override
     public void onBackPressed() {
+        //Kills activity on exit
         finish();
     }
 }

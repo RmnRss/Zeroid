@@ -1,4 +1,4 @@
-package com.ensim.deezerapp.service;
+package com.ensim.deezerapp.Service;
 
 import android.content.Context;
 
@@ -6,6 +6,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+/***
+ * Volley queue singleton class. More ressource efficient.
+ * From developpers.android volley tutorial
+ */
 public class QueueSingleton {
     private static QueueSingleton instance;
     private static Context ctx;
